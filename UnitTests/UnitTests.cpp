@@ -15,6 +15,27 @@ namespace UnitTests
 	{
 	public:
 		
+		
+		TEST_METHOD(TestSum)
+		{
+			int a = 211, b = 303;
+			int result = Sum(a, b);
+			int expected = a + b;
+
+			Assert::AreEqual<int>(expected, result, createErrorMessage(expected, result).c_str());
+
+		}
+		TEST_METHOD(TestSwap)
+		{
+			int a = 211, b = 303, xb = 211, xa = 303;
+			Swap(a, b);
+			
+
+			Assert::AreEqual<int>(a, xa, createErrorMessage(a, xa).c_str());
+			Assert::AreEqual<int>(b, xb, createErrorMessage(b, xb).c_str());
+
+		}
+		//Swap(int& a, int& b);
 		TEST_METHOD(TestMethod1)
 		{
 

@@ -117,6 +117,18 @@ void PointersExchangeArithmeticExercises()
 	int elementsBetweenThePointers =
 		DistanceBetweenPointers(&nums[2], &nums[5]);
 
+	DisplayArray(nums);
+	cout << "The number of elements between " << nums[2] << " and " << nums[5] << " is: " << elementsBetweenThePointers << endl;
+
+}
+
+
+/// <summary>
+/// Display the list of numbers as a comma-delimited string.
+/// </summary>
+/// <param name="nums">The static array for this exercise</param>
+void DisplayArray(int  nums[7])
+{
 	unsigned len = sizeof(nums) / sizeof(int);
 	for (unsigned i = 0; i < len; i++)
 	{
@@ -126,8 +138,6 @@ void PointersExchangeArithmeticExercises()
 			cout << nums[i];
 	}
 	cout << endl;
-	cout << "The number of elements between " << nums[2] << " and " << nums[5] << " is: " << elementsBetweenThePointers << endl;
-
 }
 
 
