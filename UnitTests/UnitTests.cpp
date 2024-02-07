@@ -18,7 +18,7 @@ namespace UnitTests
 		TEST_METHOD(TestMethod1)
 		{
 
-			int result = PowerOf(9, 2);
+			int result = PowerOf(3, 2);
 			int expected  = 9;
 
 			Assert::AreEqual<int>(expected, result, createErrorMessage(expected, result).c_str());
