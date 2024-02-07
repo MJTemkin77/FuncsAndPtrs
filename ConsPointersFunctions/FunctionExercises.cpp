@@ -86,11 +86,11 @@ double SumItems(double prices[], int len, double discount, bool isCash)
 	}
 	if (isCash)
 	{
-		sum *= 1 - discount;
+		sum *= (1 - 2 * discount);
 	}
 	else
 	{
-		sum *= 1 - 2 * discount;
+		sum *= (1 - discount);
 	}
 	return sum;
 	

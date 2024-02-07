@@ -83,7 +83,7 @@ void FunctionExercises()
 	cout << endl;
 
 	//4. Recursive - PowerOf
-	a = 5, b = 3;
+	a = 2, b = 3;
 	int pow = PowerOf(a, b);
 	cout << a << " to the power of " << b << " = " << pow << endl;
 }
