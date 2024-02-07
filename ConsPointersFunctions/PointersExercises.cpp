@@ -1,4 +1,5 @@
 #include "PointersExercises.h"
+#include <iostream>
 
 void ExchangeValues(int &a, int &b)
 {
@@ -77,5 +78,36 @@ void LeaveRooms(int rooms[MAX_ROOMS], int* guests[MAX_GUESTS], int checkOuts[], 
 			rooms[indexOfRoomToLeave] = VACANT;
 		}
 
+	}
+}
+
+int AssignGuests(int rooms[MAX_ROOMS], int* guests[MAX_GUESTS], int startingPosition)
+{
+	int positionOfLastGuestAssigned = -1;
+
+	for (int guestNo = startingPosition; guestNo < MAX_GUESTS; guestNo++)
+	{
+		if (HasVacancy(rooms))
+		{
+			guests[guestNo] = AssignRoomToGuest(rooms);
+			if (guests[guestNo] != nullptr)
+			{
+				positionOfLastGuestAssigned = guestNo;
+			}
+		}
+	}
+	return positionOfLastGuestAssigned;
+}
+
+void ShowRoomStatus(int  hotelRooms[MAX_ROOMS])
+{
+	std::cout << std::endl;
+	std::cout << "SHOW ROOM STATUS" << std::endl;
+	std::cout << "=======================================" << std::endl;
+
+	for (int roomNo = 0; roomNo < MAX_ROOMS; roomNo++)
+	{
+		const char* status = hotelRooms[roomNo] == VACANT ? "VACANT" : "OCCUPIED";
+		std::cout << "Room # " << roomNo + 1 << " is " << status << std::endl;
 	}
 }

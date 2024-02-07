@@ -13,17 +13,49 @@ using namespace std;
 
 int main()
 {
-    std::cout << "Hello World!\n";
-
     
+    cout << "Functions Exercises" << endl;
+    cout << "==============================" << endl;
+    FunctionExercises();
+    cout << endl;
+    cout << "Hit 'y' to continue:";
+    char ans;
+    cin >> ans;
 
+    if (ans != 'y')
+        return 0;
+
+    cout << "Pointers Exchange and Arithmetic Exercises" << endl;
+    cout << "==============================" << endl;
+    PointersExchangeArithmeticExercises();
+    cout << endl;
+    cout << "Hit 'y' to continue:";
+    ans;
+    cin >> ans;
+
+    if (ans != 'y')
+        return 0;
+
+
+    cout << "Pointers Hotel Simulation Exercies" << endl;
+    cout << "==============================" << endl;
+    PointersHotelSimulation();
+    cout << endl;
+
+    cout << "END";
+    cout << endl;
+
+}
+
+void PointersExchangeArithmeticExercises()
+{
     int a = 3, b = 12;
     cout << "Before the Exchange of a and b: a is now " << a << " and b is now " << b << endl;
     ExchangeValues(a, b);
     cout << "After the Exchange of a and b: a is now " << a << " and b is now " << b << endl;
     cout << endl;
 
-    int nums[] = {10, 20, 30, 40, 50, 60, 70};
+    int nums[] = { 10, 20, 30, 40, 50, 60, 70 };
     int lenOfNums =
         FindArrayLenInts(&nums[0], &nums[6]);
 
@@ -35,7 +67,10 @@ int main()
     SwapPtrs(pa, pb);
     cout << "After the Swap of a and b: a is now " << *pa << " and b is now " << *pb << endl;
     cout << endl;
+}
 
+void PointersHotelSimulation()
+{
     // NOTE: MAX_ROOMS and MAX_GUESTS are defined as a const int in PointersExercises.h.
     // 1. Initialize a int array of MAX_ROOMS, rooms, which represents the available rooms in a hotel.
     // 2. Initialize an int* array of MAX_GUESTS, guests, which represents the guests that may check-in and eventually out of the hotel.
@@ -45,21 +80,21 @@ int main()
     // The room is vacant when the value is true, and occupied when it is false.
     // At the start of this function all of the elements of the rooms array are vacant (all true) and
     // all of the elements of the guests array are assigned nullptr.
-    
+
     // When a guest arrives the function will look for an available room and if there is one then 
     // a) The value of the room is changed to 1 (occupied) and 
     // b) the address of the room is assigned to the corresponding element in the guests array.
-    
+
     // EXAMPLE:
     // If the 2nd element of rooms (rooms[1]) is available then change it's value to false and
     // initialize the guests[i] value to the address of rooms[i].
     // guests[i] = &rooms[i];
 
     // Three methods are needed for this simulation
-    
+
     // 1. Determine if there is any vacancy (at least one room is unoccupied)
     // bool HasVacancy(int rooms[MAX_ROOMS]) which returns true if there is at least one vacant room.
-    
+
     // 2. Assign the first available room to the current guest - this is the element in the guests array 
     // at currentGuestPosition.
     // Change the value of the room to occupied (1) and 
@@ -86,43 +121,26 @@ int main()
     // All guests are initialzed to no room assignments.
     int* guests[MAX_GUESTS] = { nullptr };
 
-    // Get the address of the first element of the hotels array
-    // Remember that the name of an array is an address.
-
-    int* baseAddressOfTheHotel = hotelRooms;
-
-
-    int positionOfLastGuestAssigned = -1;
-
-    std::cout << "ROOM ASSIGNMENTS" << endl;
-    std::cout << "=======================================" << endl;
-
-    for (int guestNo = 0; guestNo < MAX_GUESTS; guestNo++)
-    {
-        if (HasVacancy(hotelRooms))
-        {
-            guests[guestNo] = AssignRoomToGuest(hotelRooms);
-            if (guests[guestNo] != nullptr)
-            {
-                positionOfLastGuestAssigned = guestNo;
-                std::cout << "Guest # " << guestNo + 1 << " is in room " << GetRoomNumber(baseAddressOfTheHotel, guests[guestNo]) + 1 << endl;
-            }
-        }
-        else
-        {
-            std::cout << "No available room for the Waiting List # " << guestNo + 1 << endl;
-        }
-    }
     
+    int positionOfLastGuestAssigned = AssignGuests(hotelRooms, guests);
+    std::cout << "There are " << MAX_GUESTS << " persons waiting to get a room from the " << MAX_ROOMS << " available rooms." << endl;
+    std::cout << "ROOM ASSIGNMENTS to the first " << (MAX_GUESTS < MAX_ROOMS ? MAX_GUESTS : MAX_ROOMS) << " guests." << endl;
+    std::cout << "=======================================" << endl;
+    ShowRoomStatus(hotelRooms);
+
+    cout << "Hit 'y' to continue:";
+    char ans;
+    cin >> ans;
+
+
     std::cout << endl;
     std::cout << "GUEST CHECKOUT" << endl;
     std::cout << "=======================================" << endl;
 
-
     // Release some of the rooms - The guests in the following zero-based rooms will check out
     int checkOuts[] = { 0, 1, 3, 4, 7 };
     LeaveRooms(hotelRooms, guests, checkOuts, sizeof(checkOuts) / sizeof(int));
-    
+
     std::cout << endl;
     std::cout << "GUESTS who have left" << endl;
     std::cout << "=======================================" << endl;
@@ -132,50 +150,21 @@ int main()
         if (guests[guestNo] == nullptr)
             std::cout << "Guest in Room # " << guestNo + 1 << " has checked out" << endl;
     }
+    cout << "Hit 'y' to continue:";
+    cin >> ans;
 
+    ShowRoomStatus(hotelRooms);
 
-    std::cout << endl;
-    std::cout << "SHOW ROOM STATUS" << endl;
+    std::cout << "MORE ROOM ASSIGNMENTS to those on the Waiting List" << endl;
     std::cout << "=======================================" << endl;
-
-    for (int roomNo = 0; roomNo < MAX_ROOMS; roomNo++)
-    {
-        const char* status = hotelRooms[roomNo] == VACANT ? "VACANT" : "OCCUPIED";
-        std::cout << "Room # " << roomNo + 1 << " is " << status << endl;
-    }
-
-    std::cout << "MORE ROOM ASSIGNMENTS" << endl;
-    std::cout << "=======================================" << endl;
-    // See if we can give those on the Waitlist a room
     int nextGuestInLine = positionOfLastGuestAssigned + 1;
-    for (int guestNo = nextGuestInLine; guestNo < MAX_GUESTS; guestNo++)
-    {
-        if (HasVacancy(hotelRooms))
-        {
-            guests[guestNo] = AssignRoomToGuest(hotelRooms);
-            if (guests[guestNo] != nullptr)
-            {
-                positionOfLastGuestAssigned = guestNo;
-                std::cout << "Guest # " << guestNo + 1 << " is in room " << GetRoomNumber(baseAddressOfTheHotel, guests[guestNo]) + 1 << endl;
-            }
-        }
-        else
-        {
-            std::cout << "No available room for the Waiting List # " << guestNo + 1 << endl;
-        }
-    }
-
-    std::cout << endl;
-    std::cout << "SHOW ROOM STATUS" << endl;
-    std::cout << "=======================================" << endl;
-
-    for (int roomNo = 0; roomNo < MAX_ROOMS; roomNo++)
-    {
-        const char* status = hotelRooms[roomNo] == VACANT ? "VACANT" : "OCCUPIED";
-        std::cout << "Room # " << roomNo + 1 << " is " << status << endl;
-    }
+    positionOfLastGuestAssigned = AssignGuests(hotelRooms, guests, nextGuestInLine);
+    
+    ShowRoomStatus(hotelRooms);
 
 }
+
+
 
 
 void FunctionExercises()
