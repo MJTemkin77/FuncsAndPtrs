@@ -4,12 +4,13 @@
 
 # Prerequisites
 *.d
-
+ 
 # Compiled Object files
 *.slo
 *.lo
 *.o
 *.obj
+*.zip
 
 # Precompiled Headers
 *.gch

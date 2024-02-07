@@ -1,6 +1,2 @@
 ﻿  ConsPointersFunctions.cpp
-  FunctionExercises.cpp
-  PointersExercises.cpp
-  Generating Code...
-E:\Columbia\Spring_2024\PROG_220\Assignments\Week3\ConsPointersFunctions\ConsPointersFunctions\FunctionExercises.cpp(75): warning C4172: returning address of local variable or temporary: sentence
   ConsPointersFunctions.vcxproj -> E:\Columbia\Spring_2024\PROG_220\Assignments\Week3\ConsPointersFunctions\x64\Debug\ConsPointersFunctions.exe

@@ -13,11 +13,6 @@
    4. Recursive
        int PowerOf(int base, int exp)
 
-       show high-level solution
-
-       EXTRA CREDIT:
-       char* ReadUntilDelimiter(char[] input, char delim);
-
    */
 
 //1. Return sum of parameters
@@ -37,6 +32,3 @@ double SumItems(double prices[], int len, double discount, bool isCash = false);
 // Return the first parameter to the power of the second parameter.
 int PowerOf(int, int);
 
-// EXTRA CREDIT RECURSIVE
-// Find all the words until the delimiter. EXTRA CREDIT.
-char* ReadUntilDelimiter(char input[], char delim);
