@@ -1,4 +1,2 @@
-﻿  PointersExercises.cpp
-E:\Columbia\Spring_2024\PROG_220\Assignments\Week3\ConsPointersFunctions\ConsPointersFunctions\PointersExercises.cpp(30,26): warning C4244: 'initializing': conversion from '__int64' to 'int', possible loss of data
-E:\Columbia\Spring_2024\PROG_220\Assignments\Week3\ConsPointersFunctions\ConsPointersFunctions\PointersExercises.cpp(45,13): warning C4553: '==': result of expression not used; did you intend '='?
+﻿  ConsPointersFunctions.cpp
   ConsPointersFunctions.vcxproj -> E:\Columbia\Spring_2024\PROG_220\Assignments\Week3\ConsPointersFunctions\x64\Debug\ConsPointersFunctions.exe

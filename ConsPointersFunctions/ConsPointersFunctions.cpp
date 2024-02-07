@@ -62,13 +62,106 @@ int main()
     
     // 2. Assign the first available room to the current guest - this is the element in the guests array 
     // at currentGuestPosition.
-    // Remember that you are giving the guest the address of the room, not the occupancy value of the room.
+    // Change the value of the room to occupied (1) and 
+    // set the corresponding element in the guest array to the address of the room.
     // 
-    // void AssignRoomToGuest( int rooms[MAX_ROOMS], int guests[MAX_GUESTS], int currentGuestPosition)
-    int hotelRooms[MAX_ROOMS] = { 0 };
-    int* availableRoom = GetKeyOfFindFirstAvailableHotelRoom(hotelRooms);
-    cout << availableRoom;
+    // bool AssignRoomToGuest( int rooms[MAX_ROOMS], int guests[MAX_GUESTS], int currentGuestPosition)
+
+    // 3. When the guest leaves the hotel then reset the room that they occupied to vacant (0) and
+    // change the value of the guest element to nullptr.
+
+    // 4. Display their room number by using pointer arithmetic to subtract the baseAddressOfTheHotel
+    // from the guest[guestNo] value which is the address of their room.
+    // If this is hard to understand think of the classroom building for IAM. It is 916.
+    // If the starting address of the block is 900 then we would print address 16 of the 900 block.
+    // Address (916) - baseAddress (900) = 16
+    // int GetRoomNumber(int* baseAddressOfTheHotel, int* guestRoom);
+
+    // All hotel rooms are initialized to zero (vacant)
+    int hotelRooms[MAX_ROOMS] = { VACANT };
+
+
+    // USE nullptr rather than NULL as nullptr is a C++ keyword, and NULL is a macro.
+    // https://stackoverflow.com/questions/1282295/what-is-the-nullptr-keyword-and-why-is-it-better-than-null
+    // All guests are initialzed to no room assignments.
+    int* guests[MAX_GUESTS] = { nullptr };
+
+    // Get the address of the first element of the hotels array
+    // Remember that the name of an array is an address.
+
+    int* baseAddressOfTheHotel = hotelRooms;
+
+
+    int positionOfLastGuestAssigned = -1;
+
+    std::cout << "ROOM ASSIGNMENTS" << endl;
+    std::cout << "=======================================" << endl;
+
+    for (int guestNo = 0; guestNo < MAX_GUESTS; guestNo++)
+    {
+        if (HasVacancy(hotelRooms))
+        {
+            guests[guestNo] = AssignRoomToGuest(hotelRooms);
+            if (guests[guestNo] != nullptr)
+            {
+                positionOfLastGuestAssigned = guestNo;
+                std::cout << "Guest # " << guestNo + 1 << " is in room " << GetRoomNumber(baseAddressOfTheHotel, guests[guestNo]) + 1 << endl;
+            }
+        }
+        else
+        {
+            std::cout << "No available room for the Waiting List # " << guestNo + 1 << endl;
+        }
+    }
     
+    std::cout << endl;
+    std::cout << "GUEST CHECKOUT" << endl;
+    std::cout << "=======================================" << endl;
+
+
+    // Release some of the rooms - The guests in the following zero-based rooms will check out
+    int checkouts[] = { 0, 3, 4, 7 };
+    for (int i = 0; i < sizeof(checkouts)/sizeof(int); i++)
+    {
+        int indexOfRoomToLeave = checkouts[i];
+        std::cout << "Guest is leaving room " << GetRoomNumber(baseAddressOfTheHotel, guests[indexOfRoomToLeave]) + 1 << std::endl;
+        
+        // This frees a room
+        LeaveRoom(hotelRooms, indexOfRoomToLeave);
+
+        // This resets the current element of the guests array to no assignment.
+        guests[indexOfRoomToLeave] = nullptr;
+    }
+
+    std::cout << endl;
+    std::cout << "SHOW ROOM STATUS" << endl;
+    std::cout << "=======================================" << endl;
+
+    for (int roomNo = 0; roomNo < MAX_GUESTS; roomNo++)
+    {
+        const char* status = hotelRooms[roomNo] == VACANT ? "VACANT" : "OCCUPIED";
+        std::cout << "Room # " << roomNo + 1 << " is " << status << endl;
+    }
+
+    std::cout << "MORE ROOM ASSIGNMENTS" << endl;
+    std::cout << "=======================================" << endl;
+    // See if we can give those on the Waitlist a room
+    for (int guestNo = positionOfLastGuestAssigned; guestNo < MAX_GUESTS; guestNo++)
+    {
+        if (HasVacancy(hotelRooms))
+        {
+            guests[guestNo] = AssignRoomToGuest(hotelRooms);
+            if (guests[guestNo] != nullptr)
+            {
+                positionOfLastGuestAssigned = guestNo;
+                std::cout << "Guest # " << guestNo + 1 << " is in room " << GetRoomNumber(baseAddressOfTheHotel, guests[guestNo]) + 1 << endl;
+            }
+        }
+        else
+        {
+            std::cout << "No available room for the Waiting List # " << guestNo + 1 << endl;
+        }
+    }
 
 }
 

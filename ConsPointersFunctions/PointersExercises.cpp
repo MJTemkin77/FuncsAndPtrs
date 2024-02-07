@@ -27,25 +27,45 @@ void SwapPtrs(int* &a, int* &b)
 /// <returns></returns>
 int FindArrayLenInts(int* pa, int* pb)
 {
-	int distanceBetweenPtrs = pb - pa + 1;
+	int distanceBetweenPtrs = (int)( pb - pa + 1);
 	return distanceBetweenPtrs;
 }
 
 
-int* GetKeyOfFindFirstAvailableHotelRoom(int rooms[MAX_ROOMS])
+bool HasVacancy(int rooms[MAX_ROOMS])
 {
-	int* availableRoom = nullptr;
-	bool fnd = false;
-	for (size_t i = 0; i < MAX_ROOMS && !fnd; i++)
+	bool findVacantRoom = false;
+	for (int i = 0; i < MAX_GUESTS && !findVacantRoom; i++)
 	{
-		if (rooms[i] == 0)
+		findVacantRoom = rooms[i] == VACANT;
+	}
+	return findVacantRoom;
+}
+
+int GetRoomNumber(int* baseAddressOfTheHotel, int* guestRoom)
+{
+	return (int) (guestRoom - baseAddressOfTheHotel);
+}
+
+int* AssignRoomToGuest(int rooms[MAX_ROOMS])
+{
+	int* roomToAssign = nullptr;
+
+	
+	for (int i = 0; i < MAX_ROOMS && roomToAssign == nullptr; i++)
+	{
+		if (rooms[i] == VACANT)
 		{
-			fnd = true;
-			availableRoom = rooms + i;
-			rooms[i] == -1;
+			roomToAssign = rooms + i;
+			rooms[i] = OCCUPIED;
 		}
 	}
 
-	return availableRoom;
+	return roomToAssign;
+}
+
+void LeaveRoom(int rooms[MAX_ROOMS], int position)
+{
+	rooms[position] = VACANT;
 }
 

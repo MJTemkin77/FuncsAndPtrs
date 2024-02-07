@@ -27,6 +27,14 @@ int FindArrayLenInts(int* pa, int* pb);
 
 const int MAX_ROOMS = 10;
 const int MAX_GUESTS = 15;
-//3. Find the first available "room" in the hotel
-int* GetKeyOfFindFirstAvailableHotelRoom(int rooms[MAX_ROOMS]);
+const int OCCUPIED = 1;
+const int VACANT = 0;
+
+bool HasVacancy(int rooms[MAX_ROOMS]);
+int GetRoomNumber(int* baseAddressOfTheHotel, int* guestRoom);
+// 4. Find the first available "room" in the hotel and assign to the guest.
+
+int* AssignRoomToGuest(int rooms[MAX_ROOMS]);
+void LeaveRoom(int rooms[MAX_ROOMS],int position);
+
 
