@@ -3,8 +3,10 @@
 #include <cmath>
 
 #include <string>
+#include <vector>
 #include "..\ConsPointersFunctions\FunctionExercises.h"
 #include "..\ConsPointersFunctions\PointersExercises.h"
+#include "Utilities.h"
 
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;
 using namespace std;
@@ -16,21 +18,49 @@ namespace UnitTests
 
 	TEST_CLASS(FunctionsTests)
 	{
+
+		string dataFile;
+		const static int MAX_LEN = 20;
+		const static int BUFSIZE = 160;
+
 	public:
+		TEST_METHOD_INITIALIZE(InitMethods)
+		{
+			dataFile = "dataFile.txt";
+		}
+
+
 		
 		
 		TEST_METHOD(TestSum)
 		{
-			int a = 3, b = 12;
+			std::vector<string> lines = GetDataFile(dataFile);
+			if (lines.size() == 0)
+			{
+				Assert::Fail(L"No lines in data file");
+			}
+
+			int nums[MAX_LEN] = {};
+			int cntNums = getTestArray(lines, 0, nums);
+
+			int a = nums[0], b = nums[1];
 			int result = Sum(a, b);
-			int expected = a + b;
+			int expected = nums[2];
 
 			Assert::AreEqual<int>(expected, result, createErrorMessage<int>(expected, result).c_str());
 
 		}
 		TEST_METHOD(TestSwap)
 		{
-			int a = 3, b = 12, xb = a, xa = b;
+			std::vector<string> lines = GetDataFile(dataFile);
+			if (lines.size() == 0)
+			{
+				Assert::Fail(L"No lines in data file");
+			}
+
+			int nums[MAX_LEN] = {};
+			int cntNums = getTestArray(lines, 1, nums);
+			int a = nums[0], b = nums[1], xb = nums[3], xa = nums[2];
 			Swap(a, b);
 			
 
@@ -41,10 +71,19 @@ namespace UnitTests
 
 		TEST_METHOD(TestSumItems_V1)
 		{
-			double prices[] = { 7.5, 10.50, 21, 3.25, 51 };
+			std::vector<string> lines = GetDataFile(dataFile);
+			if (lines.size() == 0)
+			{
+				Assert::Fail(L"No lines in data file");
+			}
+
+			double prices[MAX_LEN] = {0};
+			int cntNums = getTestArrayDoubles(lines, 2, prices);
+
+			double expected = prices[cntNums - 1];
+			prices[cntNums - 1] = 0;
 			int len = sizeof(prices) / sizeof(double);
 			double result = SumItems(prices, len);
-			double expected = 93.25;
 			double diff = abs(expected - result);
 
 			Assert::IsFalse(diff > .01, createErrorMessage<double>(expected, result).c_str());
@@ -53,13 +92,25 @@ namespace UnitTests
 		
 		TEST_METHOD(TestSumItems_V2)
 		{
-			double prices[] = { 7.5, 10.50, 21, 3.25, 51 };
-			double discount = .1;
-			double threshold = 25;
+			std::vector<string> lines = GetDataFile(dataFile);
+			if (lines.size() == 0)
+			{
+				Assert::Fail(L"No lines in data file");
+			}
+
+			double prices[MAX_LEN] = { 0 };
+			int cntNums = getTestArrayDoubles(lines, 3, prices);
+
+			double expected = prices[cntNums - 3];
+			double discount = prices[cntNums - 2];
+			double threshold = prices[cntNums - 1];
+
+			prices[cntNums - 3] = prices[cntNums - 2] = prices[cntNums - 1] = 0;
+
 			int len = sizeof(prices) / sizeof(double);
 
 			double result = SumItems(prices, len, discount);
-			double expected = 83.925;
+			
 			double diff = abs(expected - result);
 
 
@@ -69,13 +120,25 @@ namespace UnitTests
 
 		TEST_METHOD(TestSumItems_V3)
 		{
-			double prices[] = { 7.5, 10.50, 21, 3.25, 51 };
-			double discount = .1;
-			double threshold = 25;
+			std::vector<string> lines = GetDataFile(dataFile);
+			if (lines.size() == 0)
+			{
+				Assert::Fail(L"No lines in data file");
+			}
+
+			double prices[MAX_LEN] = { 0 };
+			int cntNums = getTestArrayDoubles(lines, 4, prices);
+
+			bool isCash = prices[cntNums - 1];
+			double expected = prices[cntNums - 4];
+			double discount = prices[cntNums - 3];
+			double threshold = prices[cntNums - 2];
+
+			prices[cntNums - 4]=
+			prices[cntNums - 3] = prices[cntNums - 2] = prices[cntNums - 1] = 0;
 			int len = sizeof(prices) / sizeof(double);
 
-			double result = SumItems(prices, len, discount, true);
-			double expected = 74.60;
+			double result = SumItems(prices, len, discount, isCash);
 			double diff = abs(expected - result);
 			Assert::IsFalse(diff > .01, createErrorMessage<double>(expected, result).c_str());
 
@@ -83,9 +146,20 @@ namespace UnitTests
 
 		TEST_METHOD(TestPowerOf)
 		{
+			std::vector<string> lines = GetDataFile(dataFile);
+			if (lines.size() == 0)
+			{
+				Assert::Fail(L"No lines in data file");
+			}
 
-			int result = PowerOf(2, 3);
-			int expected  = 8;
+			int nums[MAX_LEN] = {};
+			int cntNums = getTestArray(lines, 5, nums);
+
+			int _base = nums[0];
+			int exponent = nums[1];
+
+			int result = PowerOf(_base, exponent);
+			int expected = nums[2];
 
 			Assert::AreEqual<int>(expected, result, createErrorMessage<int>(expected, result).c_str());
 
@@ -96,10 +170,28 @@ namespace UnitTests
 	TEST_CLASS(PointersTests) {
 public:
 
+	string dataFile;
+	const static int MAX_LEN = 20;
+	const static int BUFSIZE = 160;
+
+public:
+	TEST_METHOD_INITIALIZE(InitMethods)
+	{
+		dataFile = "dataFile.txt";
+	}
 
 	TEST_METHOD(TestSwapPtrs)
 	{
-		int a = 3, b = 12, xb = a, xa = b;
+		
+		std::vector<string> lines = GetDataFile(dataFile);
+		if (lines.size() == 0)
+		{
+			Assert::Fail(L"No lines in data file");
+		}
+
+		int nums[MAX_LEN] = {};
+		int cntNums = getTestArray(lines, 1, nums);
+		int a = nums[0], b = nums[1], xb = nums[3], xa = nums[2];
 
 		// Assign the addresses of a and p to pointer to int variables.
 		int* pa = &a;
@@ -114,11 +206,22 @@ public:
 
 	TEST_METHOD(TestDistanceBetweenPointers)
 	{
+		std::vector<string> lines = GetDataFile(dataFile);
+		if (lines.size() == 0)
+		{
+			Assert::Fail(L"No lines in data file");
+		}
 
-		int nums[] = { 10, 20, 30, 40, 50, 60, 70 };
+		int nums[MAX_LEN] = { 0 };
+		int cntNums = getTestArray(lines, 6, nums);
+
+		int expected = nums[cntNums - 3];
+		int start = nums[cntNums - 2];
+		int end = nums[cntNums - 1];
+			
 		int result =
-		DistanceBetweenPointers(&nums[2], &nums[5]);
-		int expected = 4;
+		DistanceBetweenPointers(&nums[start], &nums[end]);
+		
 
 		Assert::AreEqual<int>(expected, result, createErrorMessage<int>(expected, result).c_str());
 
