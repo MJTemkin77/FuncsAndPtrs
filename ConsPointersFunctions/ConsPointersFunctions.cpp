@@ -120,24 +120,25 @@ int main()
 
 
     // Release some of the rooms - The guests in the following zero-based rooms will check out
-    int checkouts[] = { 0, 3, 4, 7 };
-    for (int i = 0; i < sizeof(checkouts)/sizeof(int); i++)
-    {
-        int indexOfRoomToLeave = checkouts[i];
-        std::cout << "Guest is leaving room " << GetRoomNumber(baseAddressOfTheHotel, guests[indexOfRoomToLeave]) + 1 << std::endl;
-        
-        // This frees a room
-        LeaveRoom(hotelRooms, indexOfRoomToLeave);
+    int checkOuts[] = { 0, 1, 3, 4, 7 };
+    LeaveRooms(hotelRooms, guests, checkOuts, sizeof(checkOuts) / sizeof(int));
+    
+    std::cout << endl;
+    std::cout << "GUESTS who have left" << endl;
+    std::cout << "=======================================" << endl;
 
-        // This resets the current element of the guests array to no assignment.
-        guests[indexOfRoomToLeave] = nullptr;
+    for (int guestNo = 0; guestNo < MAX_ROOMS; guestNo++)
+    {
+        if (guests[guestNo] == nullptr)
+            std::cout << "Guest in Room # " << guestNo + 1 << " has checked out" << endl;
     }
+
 
     std::cout << endl;
     std::cout << "SHOW ROOM STATUS" << endl;
     std::cout << "=======================================" << endl;
 
-    for (int roomNo = 0; roomNo < MAX_GUESTS; roomNo++)
+    for (int roomNo = 0; roomNo < MAX_ROOMS; roomNo++)
     {
         const char* status = hotelRooms[roomNo] == VACANT ? "VACANT" : "OCCUPIED";
         std::cout << "Room # " << roomNo + 1 << " is " << status << endl;
@@ -146,7 +147,8 @@ int main()
     std::cout << "MORE ROOM ASSIGNMENTS" << endl;
     std::cout << "=======================================" << endl;
     // See if we can give those on the Waitlist a room
-    for (int guestNo = positionOfLastGuestAssigned; guestNo < MAX_GUESTS; guestNo++)
+    int nextGuestInLine = positionOfLastGuestAssigned + 1;
+    for (int guestNo = nextGuestInLine; guestNo < MAX_GUESTS; guestNo++)
     {
         if (HasVacancy(hotelRooms))
         {
@@ -161,6 +163,16 @@ int main()
         {
             std::cout << "No available room for the Waiting List # " << guestNo + 1 << endl;
         }
+    }
+
+    std::cout << endl;
+    std::cout << "SHOW ROOM STATUS" << endl;
+    std::cout << "=======================================" << endl;
+
+    for (int roomNo = 0; roomNo < MAX_ROOMS; roomNo++)
+    {
+        const char* status = hotelRooms[roomNo] == VACANT ? "VACANT" : "OCCUPIED";
+        std::cout << "Room # " << roomNo + 1 << " is " << status << endl;
     }
 
 }

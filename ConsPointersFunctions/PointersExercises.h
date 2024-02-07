@@ -35,6 +35,6 @@ int GetRoomNumber(int* baseAddressOfTheHotel, int* guestRoom);
 // 4. Find the first available "room" in the hotel and assign to the guest.
 
 int* AssignRoomToGuest(int rooms[MAX_ROOMS]);
-void LeaveRoom(int rooms[MAX_ROOMS],int position);
+void LeaveRooms(int rooms[MAX_ROOMS], int* guests[MAX_GUESTS], int checkOuts[], int numOfCheckouts);
 
 

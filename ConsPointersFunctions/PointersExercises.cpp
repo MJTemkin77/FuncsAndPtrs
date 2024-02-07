@@ -64,8 +64,18 @@ int* AssignRoomToGuest(int rooms[MAX_ROOMS])
 	return roomToAssign;
 }
 
-void LeaveRoom(int rooms[MAX_ROOMS], int position)
-{
-	rooms[position] = VACANT;
-}
 
+
+void LeaveRooms(int rooms[MAX_ROOMS], int* guests[MAX_GUESTS], int checkOuts[], int numOfCheckouts)
+{
+	for (int i = 0; i < numOfCheckouts; i++)
+	{
+		int indexOfRoomToLeave = checkOuts[i];
+		if (indexOfRoomToLeave < MAX_ROOMS)
+		{
+			guests[indexOfRoomToLeave] = nullptr;
+			rooms[indexOfRoomToLeave] = VACANT;
+		}
+
+	}
+}
